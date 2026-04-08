@@ -60,16 +60,10 @@ transactionsRouter.post('/purchase', requireAuth, async (req: Request, res: Resp
       await distributeRevenue(client, tx[0].id, version_id, version.price, buyerId)
     })
   } else {
-    // Stripe払い：本来はStripe Checkout Session を作成してフロントにURLを返す
-    // ここでは簡易実装（Webhook受信で完了処理する設計）
-    // Phase1 では直接 completed にする
-    await withTx(async (client) => {
-      const { rows: tx } = await client.query(
-        `INSERT INTO transactions (version_id, type, amount, buyer_id, status)
-         VALUES ($1,'purchase',$2,$3,'completed') RETURNING id`,
-        [version_id, version.price, buyerId]
-      )
-      await distributeRevenue(client, tx[0].id, version_id, version.price, buyerId)
+    // Stripe払い：/api/v1/stripe/checkout を使うよう案内
+    return res.status(400).json({
+      error: 'stripe_requires_checkout',
+      message: 'Stripe決済は POST /api/v1/stripe/checkout を使用してください',
     })
   }
 

@@ -13,6 +13,7 @@ import { versionsRouter     } from './routes/versions'
 import { transactionsRouter } from './routes/transactions'
 import { walletRouter       } from './routes/wallet'
 import { notificationsRouter} from './routes/notifications'
+import { stripeRouter       } from './routes/stripe'
 
 const app  = express()
 const PORT = process.env.PORT ?? 3001
@@ -21,6 +22,10 @@ const PORT = process.env.PORT ?? 3001
 
 app.use(helmet())
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }))
+
+// Stripe Webhook は raw body が必要なので express.json() の前に登録
+app.use('/api/v1/stripe/webhook', express.raw({ type: 'application/json' }))
+
 app.use(express.json())
 app.use(rateLimit({ windowMs: 60_000, max: 120, standardHeaders: true }))
 
@@ -33,6 +38,7 @@ app.use('/api/v1/versions',      versionsRouter)
 app.use('/api/v1/transactions',  transactionsRouter)
 app.use('/api/v1/wallet',        walletRouter)
 app.use('/api/v1/notifications', notificationsRouter)
+app.use('/api/v1/stripe',        stripeRouter)
 
 // ── ヘルスチェック ────────────────────────────────────────────
 
