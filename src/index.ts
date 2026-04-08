@@ -21,7 +21,10 @@ const PORT = process.env.PORT ?? 3001
 // ── ミドルウェア ──────────────────────────────────────────────
 
 app.use(helmet())
-app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }))
+app.use(cors({
+  origin: [process.env.CLIENT_URL!, 'https://utatane-fe.vercel.app'],
+  credentials: true,
+}))
 
 // Stripe Webhook は raw body が必要なので express.json() の前に登録
 app.use('/api/v1/stripe/webhook', express.raw({ type: 'application/json' }))
