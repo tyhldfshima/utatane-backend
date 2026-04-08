@@ -22,7 +22,7 @@ const PORT = process.env.PORT ?? 3001
 
 app.use(helmet())
 app.use(cors({
-  origin: [process.env.CLIENT_URL!, 'https://utatane-fe.vercel.app'],
+  origin: [process.env.CLIENT_URL!, 'https://utatane-fe.vercel.app', 'https://utatane.music', 'https://www.utatane.music'],
   credentials: true,
 }))
 
