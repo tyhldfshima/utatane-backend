@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "defaultMode": "default",
+    "disableBypassPermissions": true,
+    "deny": [
+      "Bash(npm run migrate)",
+      "Bash(npm run migrate:*)",
+      "Bash(npx tsx migrations/migrate*)",
+      "Bash(tsx migrations/migrate*)",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(rm -rf*)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "Bash(git push --force-with-lease:*)",
+      "Bash(git push * +*:*)"
+    ],
+    "ask": [
+      "Bash(npx vercel*)",
+      "Bash(psql*)"
+    ]
+  }
+}
